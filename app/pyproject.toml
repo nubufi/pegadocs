@@ -1,0 +1,75 @@
+[project]
+name = "webbot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "asyncpg>=0.30.0",
+    "azure-storage-blob>=12.25.1",
+    "bcrypt>=4.3.0",
+    "cryptography>=45.0.4",
+    "docx2txt>=0.9",
+    "dropbox>=12.0.2",
+    "fastapi>=0.115.13",
+    "frontend>=0.0.3",
+    "llama-index>=0.12.43",
+    "llama-index-embeddings-azure-openai>=0.3.8",
+    "llama-index-llms-azure-openai>=0.3.4",
+    "llama-index-readers-azstorage-blob>=0.3.1",
+    "llama-index-readers-github>=0.6.1",
+    "llama-index-readers-gitlab>=0.3.1",
+    "llama-index-readers-google>=0.6.2.post1",
+    "llama-index-readers-jira>=0.4.1",
+    "llama-index-readers-legacy-office>=0.1.1",
+    "llama-index-readers-microsoft-onedrive>=0.3.0",
+    "llama-index-readers-microsoft-sharepoint>=0.5.1",
+    "llama-index-readers-s3>=0.4.0",
+    "llama-index-readers-web>=0.4.2",
+    "llama-index-storage-chat-store-dynamodb>=0.4.2",
+    "llama-index-storage-chat-store-postgres>=0.2.2",
+    "llama-index-storage-chat-store-redis>=0.4.1",
+    "llama-index-utils-workflow>=0.3.5",
+    "llama-index-vector-stores-chroma>=0.4.2",
+    "llama-index-vector-stores-pinecone>=0.6.0",
+    "llama-index-vector-stores-postgres>=0.5.4",
+    "llama-index-vector-stores-s3>=0.1.0",
+    "logfire[aws-lambda,fastapi]>=4.14.2",
+    "loguru>=0.7.3",
+    "openpyxl>=3.1.5",
+    "opentelemetry-instrumentation-llamaindex>=0.47.5",
+    "psycopg[binary]>=3.2.9",
+    "pydantic-settings>=2.10.1",
+    "pymupdf>=1.26.3",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=0.21.1",
+    "pytest-cov>=4.1.0",
+    "pytest-dotenv>=0.5.2",
+    "python-dotenv>=1.1.0",
+    "python-gitlab>=4.13.0",
+    "redis>=6.2.0",
+    "sentry-sdk[fastapi]>=2.32.0",
+    "supabase>=2.16.0",
+    "uvicorn>=0.34.3",
+    "vecs>=0.4.5",
+]
+
+[dependency-groups]
+dev = [
+    "aws-cdk-lib",
+    "constructs",
+    "ipykernel>=6.29.5",
+    "pytest-mock",
+    "ruff",
+]
+
+[tool.setuptools.packages.find]
+include = ["lambdas*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".."]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
