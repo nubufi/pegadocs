@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;}
+    body{margin:0;background:#f4f6fb;}
+    ::selection{background:#1b3a7c;color:#fff;}
+    [data-scroll]::-webkit-scrollbar{width:9px;height:9px;}
+    [data-scroll]::-webkit-scrollbar-thumb{background:#d3dae6;border-radius:9px;}
+    @keyframes pdc-blink{0%,80%,100%{opacity:.2;transform:translateY(0);}40%{opacity:1;transform:translateY(-2px);}}
+    @keyframes pdc-rise{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes pdc-spin{to{transform:rotate(360deg);}}
+  </style>
+</helmet>
+<div style="font-family:'IBM Plex Sans',sans-serif;color:#41506b;-webkit-font-smoothing:antialiased;display:flex;height:100vh;min-height:680px;overflow:hidden;background:#f4f6fb;">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside style="flex:none;width:248px;background:#0f1d33;display:flex;flex-direction:column;padding:18px 14px;" data-sidebar>
+    <div style="display:flex;align-items:center;gap:10px;padding:6px 8px 18px;">
+      <img src="assets/pegadocs-mark-white.png" alt="" style="width:30px;height:30px;object-fit:contain;">
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:#fff;letter-spacing:-.02em;">PegaDocs</span>
+    </div>
+
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#566688;letter-spacing:.08em;padding:8px 10px 6px;">WORKSPACE</div>
+    <button onClick="{{ nav.dashboard.onClick }}" style="{{ nav.dashboard.style }}">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Dashboard
+    </button>
+    <button onClick="{{ nav.kbs.onClick }}" style="{{ nav.kbs.style }}">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M14 3v6h6"/></svg>
+      Knowledge bases
+    </button>
+
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#566688;letter-spacing:.08em;padding:16px 10px 6px;">CONNECTIONS</div>
+    <button onClick="{{ nav.providers.onClick }}" style="{{ nav.providers.style }}">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
+      Model providers
+    </button>
+    <button onClick="{{ nav.vectors.onClick }}" style="{{ nav.vectors.style }}">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg>
+      Vector stores
+    </button>
+    <button onClick="{{ nav.sources.onClick }}" style="{{ nav.sources.style }}">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>
+      Data sources
+    </button>
+
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#566688;letter-spacing:.08em;padding:16px 10px 6px;">TALK TO IT</div>
+    <button onClick="{{ nav.chat.onClick }}" style="{{ nav.chat.style }}">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-3.3A8.4 8.4 0 1 1 21 11.5z"/></svg>
+      Chat playground
+    </button>
+    <button onClick="{{ nav.channels.onClick }}" style="{{ nav.channels.style }}">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/></svg>
+      Channels &amp; bots
+    </button>
+
+    <div style="flex:1;"></div>
+
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:13px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#3ad08a;"></span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#aebbd6;">prod · self-hosted</span>
+      </div>
+      <div style="font-size:12px;color:#7b8aab;margin-top:7px;line-height:1.5;">4 KBs · 4 providers · 5 sources synced</div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main style="flex:1;display:flex;flex-direction:column;min-width:0;">
+
+    <!-- topbar -->
+    <header style="flex:none;height:60px;background:#fff;border-bottom:1px solid #e7ebf3;display:flex;align-items:center;gap:16px;padding:0 24px;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:#0f1d33;">{{ screenTitle }}</div>
+      <div style="flex:1;"></div>
+      <div style="display:none;align-items:center;gap:9px;background:#f4f6fb;border:1px solid #e7ebf3;border-radius:9px;padding:7px 12px;width:280px;" data-search>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa6bd" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <span style="font-size:13.5px;color:#9aa6bd;">Search knowledge bases…</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:7px;background:#eef2fa;border:1px solid #dde5f3;border-radius:8px;padding:6px 11px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1b3a7c;font-weight:600;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#1b3a7c;"></span>production
+      </div>
+      <button onClick="{{ nav.profile.onClick }}" title="Account" style="border:none;cursor:pointer;padding:0;width:34px;height:34px;border-radius:50%;background:#1b3a7c;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;font-family:'IBM Plex Sans',sans-serif;">NB</button>
+    </header>
+
+    <!-- scroll area -->
+    <div data-scroll style="flex:1;overflow-y:auto;padding:28px;">
+
+      <!-- ===== DASHBOARD ===== -->
+      <sc-if value="{{ isDashboard }}" hint-placeholder-val="{{ true }}">
+        <div style="max-width:1080px;">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" data-grid4>
+            <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="4">
+              <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;padding:18px;">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8995ad;letter-spacing:.02em;">{{ m.label }}</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:30px;color:#0f1d33;margin-top:8px;letter-spacing:-.02em;">{{ m.value }}</div>
+                <div style="font-size:12.5px;color:#1b9e6a;margin-top:4px;font-weight:500;">{{ m.sub }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-top:16px;" data-grid2>
+            <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;padding:20px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px;color:#0f1d33;">Knowledge bases</span>
+                <span onClick="{{ nav.kbs.onClick }}" style="cursor:pointer;font-size:13px;color:#1b3a7c;font-weight:600;">View all →</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <sc-for list="{{ kbs }}" as="kb" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;gap:13px;padding:11px 13px;border:1px solid #eef1f7;border-radius:10px;">
+                    <span style="width:34px;height:34px;border-radius:9px;background:#eef2fa;display:flex;align-items:center;justify-content:center;color:#1b3a7c;flex:none;">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M14 3v6h6"/></svg>
+                    </span>
+                    <div style="flex:1;min-width:0;">
+                      <div style="font-weight:600;color:#0f1d33;font-size:14px;">{{ kb.name }}</div>
+                      <div style="font-size:12px;color:#8995ad;font-family:'JetBrains Mono',monospace;">{{ kb.sources }} · {{ kb.docs }} docs</div>
+                    </div>
+                    <span style="{{ kb.badge.style }}"><span style="{{ kb.badge.dot }}"></span>{{ kb.badge.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;padding:20px;">
+              <span style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px;color:#0f1d33;">Recent activity</span>
+              <div style="display:flex;flex-direction:column;gap:0;margin-top:14px;">
+                <sc-for list="{{ activity }}" as="a" hint-placeholder-count="5">
+                  <div style="display:flex;gap:11px;padding:9px 0;border-bottom:1px solid #f2f4f9;">
+                    <span style="width:7px;height:7px;border-radius:50%;background:#1b3a7c;margin-top:6px;flex:none;"></span>
+                    <div style="flex:1;">
+                      <div style="font-size:13.5px;color:#33415c;line-height:1.4;">{{ a.text }}</div>
+                      <div style="font-size:11.5px;color:#9aa6bd;font-family:'JetBrains Mono',monospace;margin-top:1px;">{{ a.time }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== KNOWLEDGE BASES ===== -->
+      <sc-if value="{{ isKbs }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:1080px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+            <p style="margin:0;font-size:14.5px;color:#5a6985;">Each knowledge base wires together sources, a vector store and the models that answer over them.</p>
+            <button style="cursor:pointer;background:#1b3a7c;color:#fff;border:none;padding:10px 16px;border-radius:9px;font-weight:600;font-size:14px;font-family:'IBM Plex Sans',sans-serif;display:flex;align-items:center;gap:7px;flex:none;"><span style="font-size:16px;line-height:1;">+</span>New knowledge base</button>
+          </div>
+          <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;overflow:hidden;">
+            <div style="display:grid;grid-template-columns:1.4fr 1.6fr 1fr .9fr 1fr;gap:14px;padding:13px 20px;background:#f7f9fc;border-bottom:1px solid #eef1f7;font-family:'JetBrains Mono',monospace;font-size:11px;color:#8995ad;letter-spacing:.04em;">
+              <span>NAME</span><span>SOURCES</span><span>VECTOR STORE</span><span>DOCUMENTS</span><span>STATUS</span>
+            </div>
+            <sc-for list="{{ kbs }}" as="kb" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:1.4fr 1.6fr 1fr .9fr 1fr;gap:14px;padding:15px 20px;border-bottom:1px solid #f2f4f9;align-items:center;">
+                <span style="font-weight:600;color:#0f1d33;font-size:14px;">{{ kb.name }}</span>
+                <span style="font-size:13px;color:#5a6985;">{{ kb.sources }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1b3a7c;">{{ kb.vectors }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#33415c;">{{ kb.docs }}</span>
+                <span style="{{ kb.badge.style }}"><span style="{{ kb.badge.dot }}"></span>{{ kb.badge.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== PROVIDERS ===== -->
+      <sc-if value="{{ isProviders }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:1080px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+            <p style="margin:0;font-size:14.5px;color:#5a6985;">Attach any LLM and embedding provider. Keys are stored encrypted; swap models without re-indexing.</p>
+            <button style="cursor:pointer;background:#1b3a7c;color:#fff;border:none;padding:10px 16px;border-radius:9px;font-weight:600;font-size:14px;font-family:'IBM Plex Sans',sans-serif;display:flex;align-items:center;gap:7px;flex:none;"><span style="font-size:16px;line-height:1;">+</span>Add provider</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;" data-grid2>
+            <sc-for list="{{ providers }}" as="p" hint-placeholder-count="4">
+              <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;padding:20px;">
+                <div style="display:flex;align-items:flex-start;gap:13px;">
+                  <span style="width:42px;height:42px;border-radius:11px;background:#eef2fa;border:1px solid #dde5f3;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;color:#1b3a7c;font-size:14px;flex:none;">{{ p.tag }}</span>
+                  <div style="flex:1;">
+                    <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:#0f1d33;">{{ p.name }}</div>
+                    <div style="font-size:12.5px;color:#8995ad;font-family:'JetBrains Mono',monospace;">{{ p.kind }}</div>
+                  </div>
+                  <span style="{{ p.badge.style }}"><span style="{{ p.badge.dot }}"></span>{{ p.badge.label }}</span>
+                </div>
+                <div style="margin-top:15px;padding:11px 13px;background:#f7f9fc;border:1px solid #eef1f7;border-radius:9px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#33415c;">{{ p.model }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== VECTORS ===== -->
+      <sc-if value="{{ isVectors }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:1080px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+            <p style="margin:0;font-size:14.5px;color:#5a6985;">Bring your own vector store. PegaDocs manages chunking, embeddings and retrieval against it.</p>
+            <button style="cursor:pointer;background:#1b3a7c;color:#fff;border:none;padding:10px 16px;border-radius:9px;font-weight:600;font-size:14px;font-family:'IBM Plex Sans',sans-serif;display:flex;align-items:center;gap:7px;flex:none;"><span style="font-size:16px;line-height:1;">+</span>Connect store</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" data-grid3>
+            <sc-for list="{{ vectors }}" as="v" hint-placeholder-count="3">
+              <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;padding:20px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <span style="width:40px;height:40px;border-radius:10px;background:#eef2fa;border:1px solid #dde5f3;display:flex;align-items:center;justify-content:center;color:#1b3a7c;">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg>
+                  </span>
+                  <span style="{{ v.badge.style }}"><span style="{{ v.badge.dot }}"></span>{{ v.badge.label }}</span>
+                </div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16.5px;color:#0f1d33;margin-top:15px;">{{ v.name }}</div>
+                <div style="font-size:12.5px;color:#8995ad;font-family:'JetBrains Mono',monospace;margin-top:3px;">{{ v.detail }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px;margin-top:14px;padding-top:14px;border-top:1px solid #f2f4f9;">
+                  <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:#0f1d33;">{{ v.chunks }}</span>
+                  <span style="font-size:12px;color:#8995ad;">vectors indexed</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== SOURCES ===== -->
+      <sc-if value="{{ isSources }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:1080px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+            <p style="margin:0;font-size:14.5px;color:#5a6985;">Connect SharePoint, S3, Confluence and more. Scheduled syncs keep the index fresh automatically.</p>
+            <button style="cursor:pointer;background:#1b3a7c;color:#fff;border:none;padding:10px 16px;border-radius:9px;font-weight:600;font-size:14px;font-family:'IBM Plex Sans',sans-serif;display:flex;align-items:center;gap:7px;flex:none;"><span style="font-size:16px;line-height:1;">+</span>Add source</button>
+          </div>
+          <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;overflow:hidden;">
+            <div style="display:grid;grid-template-columns:1.3fr 1fr 1.4fr .8fr 1fr;gap:14px;padding:13px 20px;background:#f7f9fc;border-bottom:1px solid #eef1f7;font-family:'JetBrains Mono',monospace;font-size:11px;color:#8995ad;letter-spacing:.04em;">
+              <span>SOURCE</span><span>CONNECTOR</span><span>SCOPE</span><span>DOCS</span><span>SYNC</span>
+            </div>
+            <sc-for list="{{ sources }}" as="s" hint-placeholder-count="5">
+              <div style="display:grid;grid-template-columns:1.3fr 1fr 1.4fr .8fr 1fr;gap:14px;padding:15px 20px;border-bottom:1px solid #f2f4f9;align-items:center;">
+                <span style="font-weight:600;color:#0f1d33;font-size:14px;">{{ s.name }}</span>
+                <span style="font-size:13px;color:#5a6985;">{{ s.type }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1b3a7c;">{{ s.scope }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#33415c;">{{ s.docs }}</span>
+                <span style="{{ s.badge.style }}"><span style="{{ s.badge.dot }}"></span>{{ s.badge.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== CHAT PLAYGROUND ===== -->
+      <sc-if value="{{ isChat }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:860px;margin:0 auto;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+            <span style="font-size:13px;color:#8995ad;">Knowledge base:</span>
+            <span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #dde5f3;border-radius:9px;padding:7px 13px;font-size:13.5px;font-weight:600;color:#1b3a7c;">
+              Company Wiki
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8995ad;">model: claude-3.5-sonnet · pinecone://prod-kb</span>
+          </div>
+
+          <div style="background:#0f1d33;border:1px solid #1c2c47;border-radius:16px;overflow:hidden;box-shadow:0 24px 60px -30px rgba(15,29,51,.5);">
+            <div data-cscroll style="padding:22px;display:flex;flex-direction:column;gap:16px;min-height:340px;max-height:440px;overflow-y:auto;">
+              <sc-for list="{{ cmessages }}" as="m" hint-placeholder-count="2">
+                <sc-if value="{{ m.isUser }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;justify-content:flex-end;">
+                    <div style="background:#2a4a8c;color:#fff;padding:11px 15px;border-radius:13px 13px 4px 13px;font-size:14px;max-width:78%;">{{ m.text }}</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ m.isAssistant }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:10px;">
+                    <span style="flex:none;width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin-top:1px;">
+                      <img src="assets/pegadocs-mark-white.png" alt="" style="width:19px;height:19px;object-fit:contain;">
+                    </span>
+                    <div style="max-width:84%;">
+                      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);color:#dde6f5;padding:11px 14px;border-radius:4px 13px 13px 13px;font-size:14px;line-height:1.55;">{{ m.text }}</div>
+                      <sc-if value="{{ m.hasSources }}" hint-placeholder-val="{{ false }}">
+                        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
+                          <sc-for list="{{ m.sources }}" as="src" hint-placeholder-count="0">
+                            <span style="display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#9fb9ea;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:3px 8px;border-radius:6px;"><span style="width:5px;height:5px;border-radius:50%;background:#6f9aea;"></span>{{ src }}</span>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </div>
+                </sc-if>
+              </sc-for>
+              <sc-if value="{{ ctyping }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:10px;">
+                  <span style="flex:none;width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;"><img src="assets/pegadocs-mark-white.png" alt="" style="width:19px;height:19px;object-fit:contain;"></span>
+                  <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:13px 15px;border-radius:4px 13px 13px 13px;display:flex;gap:4px;align-items:center;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:#7b8aab;animation:pdc-blink 1.2s infinite;"></span>
+                    <span style="width:6px;height:6px;border-radius:50%;background:#7b8aab;animation:pdc-blink 1.2s infinite .2s;"></span>
+                    <span style="width:6px;height:6px;border-radius:50%;background:#7b8aab;animation:pdc-blink 1.2s infinite .4s;"></span>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+            <div style="padding:14px 16px;border-top:1px solid #1c2c47;background:#0c1626;">
+              <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;">
+                <sc-for list="{{ csuggestions }}" as="s" hint-placeholder-count="3">
+                  <button onClick="{{ s.onClick }}" style="cursor:pointer;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#aebbd6;font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;font-weight:500;padding:6px 11px;border-radius:8px;" style-hover="background:rgba(255,255,255,.12);">{{ s.label }}</button>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:10px 14px;">
+                <span style="font-size:14px;color:#7b8aab;flex:1;">Message your knowledge base…</span>
+                <span style="width:32px;height:32px;border-radius:8px;background:#2a4a8c;display:flex;align-items:center;justify-content:center;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== CHANNELS ===== -->
+      <sc-if value="{{ isChannels }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:1080px;">
+          <p style="margin:0 0 18px;font-size:14.5px;color:#5a6985;">One knowledge base, many surfaces. Flip a channel on and it answers there instantly — same index, same citations.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" data-grid3>
+            <sc-for list="{{ channels }}" as="c" hint-placeholder-count="6">
+              <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;padding:20px;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+                  <span style="width:42px;height:42px;border-radius:11px;background:#eef2fa;border:1px solid #dde5f3;display:flex;align-items:center;justify-content:center;color:#1b3a7c;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/></svg>
+                  </span>
+                  <span style="{{ c.badge.style }}"><span style="{{ c.badge.dot }}"></span>{{ c.badge.label }}</span>
+                </div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16.5px;color:#0f1d33;margin-top:15px;">{{ c.name }}</div>
+                <div style="font-size:13px;color:#5a6985;margin-top:3px;">{{ c.desc }}</div>
+                <div style="margin-top:15px;padding-top:14px;border-top:1px solid #f2f4f9;display:flex;align-items:center;justify-content:space-between;">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8995ad;">{{ c.meta }}</span>
+                  <span style="{{ c.toggle.track }}"><span style="{{ c.toggle.knob }}"></span></span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== PROFILE / ACCOUNT ===== -->
+      <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:860px;">
+          <!-- identity card -->
+          <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;padding:24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+            <span style="width:72px;height:72px;border-radius:18px;background:#1b3a7c;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:28px;flex:none;">NB</span>
+            <div style="flex:1;min-width:180px;">
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:21px;color:#0f1d33;">Nuri Buğra</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;color:#1b3a7c;background:#eef2fa;border:1px solid #dde5f3;">OWNER</span>
+              </div>
+              <div style="font-size:14px;color:#6b7890;margin-top:3px;">nuri@acme-corp.com · joined Jan 2026</div>
+            </div>
+            <a href="PegaDocs Auth.dc.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;background:#fff;color:#c0392b;border:1px solid #f0d3cf;padding:9px 15px;border-radius:9px;font-weight:600;font-size:14px;flex:none;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign out
+            </a>
+          </div>
+
+          <!-- profile details -->
+          <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;padding:24px;margin-top:16px;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:#0f1d33;">Profile details</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;" data-grid2>
+              <label style="display:block;"><span style="display:block;font-size:13px;font-weight:600;color:#33415c;margin-bottom:6px;">Full name</span><input type="text" value="Nuri Buğra" style="width:100%;padding:11px 13px;border:1px solid #dbe2ee;border-radius:10px;font-size:14px;font-family:'IBM Plex Sans',sans-serif;color:#0f1d33;outline:none;" style-focus="border-color:#1b3a7c;"></label>
+              <label style="display:block;"><span style="display:block;font-size:13px;font-weight:600;color:#33415c;margin-bottom:6px;">Email</span><input type="email" value="nuri@acme-corp.com" style="width:100%;padding:11px 13px;border:1px solid #dbe2ee;border-radius:10px;font-size:14px;font-family:'IBM Plex Sans',sans-serif;color:#0f1d33;outline:none;" style-focus="border-color:#1b3a7c;"></label>
+              <label style="display:block;"><span style="display:block;font-size:13px;font-weight:600;color:#33415c;margin-bottom:6px;">Workspace</span><input type="text" value="acme-corp" style="width:100%;padding:11px 13px;border:1px solid #dbe2ee;border-radius:10px;font-size:14px;font-family:'IBM Plex Sans',sans-serif;color:#0f1d33;outline:none;" style-focus="border-color:#1b3a7c;"></label>
+              <label style="display:block;"><span style="display:block;font-size:13px;font-weight:600;color:#33415c;margin-bottom:6px;">Timezone</span><input type="text" value="Europe/Istanbul (GMT+3)" style="width:100%;padding:11px 13px;border:1px solid #dbe2ee;border-radius:10px;font-size:14px;font-family:'IBM Plex Sans',sans-serif;color:#0f1d33;outline:none;" style-focus="border-color:#1b3a7c;"></label>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:18px;">
+              <button style="cursor:pointer;background:#1b3a7c;color:#fff;border:none;padding:10px 18px;border-radius:9px;font-weight:600;font-size:14px;font-family:'IBM Plex Sans',sans-serif;">Save changes</button>
+              <button style="cursor:pointer;background:#fff;color:#5a6985;border:1px solid #dbe2ee;padding:10px 18px;border-radius:9px;font-weight:600;font-size:14px;font-family:'IBM Plex Sans',sans-serif;">Cancel</button>
+            </div>
+          </div>
+
+          <!-- API keys -->
+          <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;padding:24px;margin-top:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+              <div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:#0f1d33;">API keys</div>
+                <div style="font-size:13px;color:#8995ad;margin-top:2px;">Authenticate against the PegaDocs REST API.</div>
+              </div>
+              <button style="cursor:pointer;background:#fff;color:#1b3a7c;border:1px solid #cdd8ec;padding:9px 15px;border-radius:9px;font-weight:600;font-size:14px;font-family:'IBM Plex Sans',sans-serif;">+ New key</button>
+            </div>
+            <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;align-items:center;gap:13px;padding:13px 15px;border:1px solid #eef1f7;border-radius:10px;flex-wrap:wrap;">
+                <span style="font-weight:600;color:#0f1d33;font-size:14px;">Production</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#5a6985;background:#f7f9fc;border:1px solid #eef1f7;padding:4px 10px;border-radius:7px;">pk_live_••••••••••••8f2a</span>
+                <div style="flex:1;"></div>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9aa6bd;">used 2m ago</span>
+                <span style="cursor:pointer;font-size:13px;color:#1b3a7c;font-weight:600;">Copy</span>
+                <span style="cursor:pointer;font-size:13px;color:#c0392b;font-weight:600;">Revoke</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:13px;padding:13px 15px;border:1px solid #eef1f7;border-radius:10px;flex-wrap:wrap;">
+                <span style="font-weight:600;color:#0f1d33;font-size:14px;">CI / staging</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#5a6985;background:#f7f9fc;border:1px solid #eef1f7;padding:4px 10px;border-radius:7px;">pk_test_••••••••••••1c07</span>
+                <div style="flex:1;"></div>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9aa6bd;">used 4d ago</span>
+                <span style="cursor:pointer;font-size:13px;color:#1b3a7c;font-weight:600;">Copy</span>
+                <span style="cursor:pointer;font-size:13px;color:#c0392b;font-weight:600;">Revoke</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- sessions -->
+          <div style="background:#fff;border:1px solid #e7ebf3;border-radius:14px;padding:24px;margin-top:16px;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:#0f1d33;">Active sessions</div>
+            <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;align-items:center;gap:13px;padding:13px 15px;border:1px solid #eef1f7;border-radius:10px;">
+                <span style="width:36px;height:36px;border-radius:9px;background:#eef2fa;display:flex;align-items:center;justify-content:center;color:#1b3a7c;flex:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg></span>
+                <div style="flex:1;"><div style="font-weight:600;color:#0f1d33;font-size:14px;">MacBook Pro · Istanbul</div><div style="font-size:12px;color:#8995ad;font-family:'JetBrains Mono',monospace;">Chrome · this device</div></div>
+                <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;color:#1b9e6a;background:#e7f6ee;"><span style="width:6px;height:6px;border-radius:50%;background:#1b9e6a;"></span>Current</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:13px;padding:13px 15px;border:1px solid #eef1f7;border-radius:10px;">
+                <span style="width:36px;height:36px;border-radius:9px;background:#eef2fa;display:flex;align-items:center;justify-content:center;color:#1b3a7c;flex:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span>
+                <div style="flex:1;"><div style="font-weight:600;color:#0f1d33;font-size:14px;">iPhone · Telegram bot</div><div style="font-size:12px;color:#8995ad;font-family:'JetBrains Mono',monospace;">last active 6h ago</div></div>
+                <span style="cursor:pointer;font-size:13px;color:#c0392b;font-weight:600;">Revoke</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </main>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'dashboard',
+    cmessages: [
+      { role: 'assistant', text: "Connected to Company Wiki. Ask me anything — I'll cite the documents I used." },
+      { role: 'user', text: "What's our VPN setup for contractors?" },
+      { role: 'assistant', text: "Contractors use the split-tunnel profile in the GlobalProtect portal. Access is granted per-project and auto-expires after 90 days; request it through the IT service desk form.", sources: ["sharepoint › IT-Policies/VPN.docx", "confluence › IT/Access"] }
+    ],
+    ctyping: false,
+    casked: {}
+  };
+
+  qa = {
+    sso: { label: "Where's SSO documented?", answer: "SSO lives in the Platform Admin guide — SAML and OIDC are both supported, with group-to-role mapping under Settings → Access.", sources: ["sharepoint › IT-Policies/SSO.docx"] },
+    onboard: { label: "Summarize Q3 onboarding changes", answer: "Three Q3 changes: laptop provisioning is now self-service, security training is mandatory in week one, and benefits enrollment closes on day 30.", sources: ["s3 › hr-docs/onboarding-q3.pdf"] },
+    deploy: { label: "How do I roll back a release?", answer: "Use `pegadocs deploy --rollback <tag>`, or revert the Helm release. The runbook covers draining traffic and re-warming the cache first.", sources: ["github › handbook/runbooks/rollback.md"] }
+  };
+
+  badgeFor(status) {
+    const map = {
+      active:  { label: 'Active',  c: '#1b9e6a', bg: '#e7f6ee' },
+      live:    { label: 'Live',    c: '#1b9e6a', bg: '#e7f6ee' },
+      syncing: { label: 'Syncing', c: '#b3791a', bg: '#fbf1de' },
+      idle:    { label: 'Idle',    c: '#6b7890', bg: '#eef1f6' },
+      off:     { label: 'Off',     c: '#6b7890', bg: '#eef1f6' },
+      error:   { label: 'Error',   c: '#c0392b', bg: '#fbeae8' }
+    };
+    const m = map[status] || map.idle;
+    return {
+      label: m.label,
+      style: `display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;white-space:nowrap;color:${m.c};background:${m.bg};`,
+      dot: `width:6px;height:6px;border-radius:50%;background:${m.c};${status === 'syncing' ? 'animation:pdc-spin 1s linear infinite;' : ''}`
+    };
+  }
+
+  go(screen) { this.setState({ screen }); const sc = document.querySelector('[data-scroll]'); if (sc) sc.scrollTop = 0; }
+
+  cscroll() { const el = document.querySelector('[data-cscroll]'); if (el) el.scrollTop = el.scrollHeight; }
+
+  ask(key) {
+    const def = this.qa[key];
+    if (!def || this.state.ctyping) return;
+    this.setState(s => ({ cmessages: [...s.cmessages, { role: 'user', text: def.label }], ctyping: true, casked: { ...s.casked, [key]: true } }), () => this.cscroll());
+    setTimeout(() => {
+      this.setState(s => ({ cmessages: [...s.cmessages, { role: 'assistant', text: def.answer, sources: def.sources }], ctyping: false }), () => this.cscroll());
+    }, 1100);
+  }
+
+  componentDidMount() {
+    this.applyResponsive();
+    this._onResize = () => this.applyResponsive();
+    window.addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+
+  applyResponsive() {
+    const w = window.innerWidth;
+    const set = (sel, prop, val) => { const e = document.querySelector(sel); if (e) e.style[prop] = val; };
+    const sb = document.querySelector('[data-sidebar]');
+    if (sb) sb.style.display = w < 760 ? 'none' : 'flex';
+    set('[data-search]', 'display', w < 1100 ? 'none' : 'flex');
+    set('[data-grid4]', 'gridTemplateColumns', w < 720 ? '1fr 1fr' : 'repeat(4,1fr)');
+    set('[data-grid3]', 'gridTemplateColumns', w < 720 ? '1fr' : w < 1000 ? '1fr 1fr' : 'repeat(3,1fr)');
+    document.querySelectorAll('[data-grid2]').forEach(e => { e.style.gridTemplateColumns = w < 820 ? '1fr' : ''; });
+  }
+
+  navStyle(key) {
+    const active = this.state.screen === key;
+    return `display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:none;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;padding:9px 12px;border-radius:9px;margin-bottom:2px;transition:background .15s;background:${active ? 'rgba(255,255,255,.11)' : 'transparent'};color:${active ? '#ffffff' : '#9aa6bd'};`;
+  }
+
+  renderVals() {
+    const keys = ['dashboard', 'kbs', 'providers', 'vectors', 'sources', 'chat', 'channels', 'profile'];
+    const nav = {};
+    keys.forEach(k => { nav[k] = { onClick: () => this.go(k), style: this.navStyle(k) }; });
+
+    const titles = { dashboard: 'Dashboard', kbs: 'Knowledge bases', providers: 'Model providers', vectors: 'Vector stores', sources: 'Data sources', chat: 'Chat playground', channels: 'Channels & bots', profile: 'Account' };
+
+    const metrics = [
+      { label: 'Knowledge bases', value: '4', sub: 'all healthy' },
+      { label: 'Documents indexed', value: '18,420', sub: '+820 this week' },
+      { label: 'Queries · 7d', value: '2,310', sub: '+12% vs prev' },
+      { label: 'Avg response', value: '840ms', sub: 'p50 latency' }
+    ];
+    const activity = [
+      { text: 'Engineering Docs sync started', time: 'just now' },
+      { text: 'Azure OpenAI key rotated', time: '1h ago' },
+      { text: '210 documents added to Company Wiki', time: '3h ago' },
+      { text: 'Telegram bot answered 48 queries', time: 'today' },
+      { text: 'pgvector reindex completed', time: 'yesterday' }
+    ];
+    const kbsRaw = [
+      { name: 'Company Wiki', sources: 'SharePoint, Confluence', vectors: 'pinecone', docs: '8,240', status: 'active' },
+      { name: 'HR & Policies', sources: 'Amazon S3, Drive', vectors: 'pgvector', docs: '3,110', status: 'active' },
+      { name: 'Engineering Docs', sources: 'GitHub, Notion', vectors: 'qdrant', docs: '5,870', status: 'syncing' },
+      { name: 'Support KB', sources: 'Zendesk, Web', vectors: 'pinecone', docs: '1,200', status: 'idle' }
+    ];
+    const providersRaw = [
+      { name: 'Azure OpenAI', tag: 'AZ', kind: 'LLM + Embeddings', model: 'gpt-4o · text-embedding-3-large', status: 'active' },
+      { name: 'AWS Bedrock', tag: 'BR', kind: 'LLM', model: 'anthropic.claude-3-5-sonnet', status: 'active' },
+      { name: 'OpenRouter', tag: 'OR', kind: 'LLM router', model: 'auto · 40+ models available', status: 'active' },
+      { name: 'Ollama', tag: 'OL', kind: 'LLM · local', model: 'llama3.1:70b', status: 'idle' }
+    ];
+    const vectorsRaw = [
+      { name: 'Pinecone', detail: 'prod-kb · us-east-1', chunks: '1.24M', status: 'active' },
+      { name: 'pgvector', detail: 'pg-main · hr schema', chunks: '310K', status: 'active' },
+      { name: 'Qdrant', detail: 'eng-cluster', chunks: '587K', status: 'syncing' }
+    ];
+    const sourcesRaw = [
+      { name: 'IT SharePoint', type: 'SharePoint', scope: '/sites/IT-Policies', docs: '2,140', status: 'active' },
+      { name: 'HR Docs Bucket', type: 'Amazon S3', scope: 's3://hr-docs', docs: '1,860', status: 'active' },
+      { name: 'Eng Handbook', type: 'GitHub', scope: 'org/handbook', docs: '920', status: 'active' },
+      { name: 'Confluence Space', type: 'Confluence', scope: 'PLATFORM', docs: '3,400', status: 'syncing' },
+      { name: 'Product Notion', type: 'Notion', scope: 'Product wiki', docs: '1,120', status: 'error' }
+    ];
+    const channelsRaw = [
+      { name: 'Web widget', desc: 'Embeddable chat bubble', meta: 'embed snippet', status: 'live' },
+      { name: 'Microsoft Teams', desc: 'Bot in your tenant', meta: 'azure bot · app id', status: 'live' },
+      { name: 'Telegram', desc: '@PegaDocsBot', meta: 'bot token', status: 'live' },
+      { name: 'REST API', desc: 'POST /v1/chat', meta: 'bearer key', status: 'live' },
+      { name: 'Slack', desc: '/ask slash command', meta: 'not configured', status: 'off' },
+      { name: 'Discord', desc: 'Server bot', meta: 'not configured', status: 'off' }
+    ];
+
+    const withBadge = arr => arr.map(o => ({ ...o, badge: this.badgeFor(o.status) }));
+    const toggleFor = on => ({
+      track: `width:38px;height:22px;border-radius:11px;display:inline-flex;align-items:center;padding:2px;background:${on ? '#1b9e6a' : '#d3dae6'};justify-content:${on ? 'flex-end' : 'flex-start'};`,
+      knob: 'width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);'
+    });
+
+    const cmessages = this.state.cmessages.map(m => ({ text: m.text, isUser: m.role === 'user', isAssistant: m.role === 'assistant', sources: m.sources || [], hasSources: !!(m.sources && m.sources.length) }));
+    const csuggestions = Object.keys(this.qa).filter(k => !this.state.casked[k]).map(k => ({ label: this.qa[k].label, onClick: () => this.ask(k) }));
+
+    return {
+      nav,
+      screen: this.state.screen,
+      screenTitle: titles[this.state.screen],
+      isDashboard: this.state.screen === 'dashboard',
+      isKbs: this.state.screen === 'kbs',
+      isProviders: this.state.screen === 'providers',
+      isVectors: this.state.screen === 'vectors',
+      isSources: this.state.screen === 'sources',
+      isChat: this.state.screen === 'chat',
+      isChannels: this.state.screen === 'channels',
+      isProfile: this.state.screen === 'profile',
+      metrics, activity,
+      kbs: withBadge(kbsRaw),
+      providers: withBadge(providersRaw),
+      vectors: withBadge(vectorsRaw),
+      sources: withBadge(sourcesRaw),
+      channels: channelsRaw.map(o => ({ ...o, badge: this.badgeFor(o.status), toggle: toggleFor(o.status === 'live') })),
+      cmessages, ctyping: this.state.ctyping, csuggestions
+    };
+  }
+}
+</script>
+</body>
+</html>
