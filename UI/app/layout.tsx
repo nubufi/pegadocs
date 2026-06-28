@@ -22,8 +22,9 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PegaDocs Console",
-  description: "Connect knowledge sources, models, and vector stores.",
+  title: "PegaDocs - Self-hosted RAG on your stack",
+  description:
+    "Open-source knowledge management for your own models, vector stores, data sources, and chat channels.",
 };
 
 export default function RootLayout({
