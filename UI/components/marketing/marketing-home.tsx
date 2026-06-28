@@ -9,6 +9,7 @@ import {
   PackageOpen,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { GitHubIcon } from "@/components/ui/github-icon";
 import { cn } from "@/lib/cn";
 import {
   features,
@@ -129,7 +130,7 @@ export function MarketingHome() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-[9px] border border-navy bg-navy px-3.5 py-2 text-sm font-semibold text-white"
           >
-            <span className="font-mono text-[12px]">GH</span>
+            <GitHubIcon className="h-4 w-4" />
             Star
           </a>
         </nav>
@@ -167,8 +168,9 @@ export function MarketingHome() {
                 href={githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-[50px] items-center justify-center rounded-[11px] border border-border-strong bg-white px-6 text-[15.5px] font-semibold text-foreground transition-colors hover:border-[#cdd8ec] hover:bg-[#f7f9fc]"
+                className="inline-flex h-[50px] items-center justify-center gap-2.5 rounded-[11px] border border-border-strong bg-white px-6 text-[15.5px] font-semibold text-foreground transition-colors hover:border-[#cdd8ec] hover:bg-[#f7f9fc]"
               >
+                <GitHubIcon className="h-[18px] w-[18px]" />
                 View on GitHub
               </a>
             </div>
@@ -409,7 +411,7 @@ docker compose up -d
               rel="noopener noreferrer"
               className="inline-flex h-[50px] items-center gap-2.5 rounded-[11px] bg-white px-6 text-[15.5px] font-semibold text-navy"
             >
-              <span className="font-mono text-[13px]">GH</span>
+              <GitHubIcon className="h-[18px] w-[18px]" />
               Star on GitHub
             </a>
             <a

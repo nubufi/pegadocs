@@ -12,6 +12,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { GitHubIcon } from "@/components/ui/github-icon";
 import { Field, Input } from "@/components/ui/input";
 import { cn } from "@/lib/cn";
 import { ApiError } from "@/lib/api/auth";
@@ -86,7 +87,7 @@ function OAuthButtons({ verb }: { verb: "Continue" | "Sign up" }) {
   return (
     <div className="flex flex-col gap-2.5">
       <Button className="h-11 w-full bg-navy hover:bg-[#182944]" disabled>
-        <span className="font-display text-sm font-bold">GH</span>
+        <GitHubIcon className="h-4 w-4" />
         {verb} with GitHub
       </Button>
       <Button variant="secondary" className="h-11 w-full text-foreground" disabled>
