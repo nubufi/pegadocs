@@ -55,10 +55,12 @@ class TestModelService:
         )
         assert result == [{"name": "builtin"}, {"name": "custom"}]
 
+    @patch.object(ModelService, "get_builtin_models")
     @patch.object(
         ModelService, "get_user_defined_models", side_effect=Exception("list error")
     )
-    def test_list_models_failure(self, _):
+    def test_list_models_failure(self, _, mock_builtin_models):
+        mock_builtin_models.return_value = []
         with pytest.raises(
             ModelListingException, match="Failed to list models: list error"
         ):

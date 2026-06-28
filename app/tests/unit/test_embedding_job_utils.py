@@ -19,6 +19,7 @@ def test_persist_documents_for_job_uploads_and_records(mock_boto3, monkeypatch):
     mock_boto3.resource.return_value = mock_dynamodb_resource
 
     monkeypatch.setattr(settings, "S3_DATA_SOURCE_BUCKET_NAME", "test-bucket")
+    monkeypatch.setattr(settings, "S3_EMBEDDING_BUCKET_NAME", "test-embed-bucket")
     monkeypatch.setattr(settings, "JOB_STATUS_TABLE_NAME", "job-status")
 
     doc = Document(text="hello world", doc_id="doc-1")

@@ -1,7 +1,7 @@
 import uuid
 from typing import Dict
 
-from fastapi import APIRouter, Depends, BackgroundTasks
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
 from app.application.protocols.task_store import TaskStatus
@@ -114,19 +114,18 @@ def finalize_embedding_job(
 )
 def embed(
     input: EmbeddingRequest,
-    background: BackgroundTasks,
     user_id: str = Depends(get_user),
     task_svc: TaskService = Depends(get_task_service),
 ):
-    # 1) generate task id
     task_id = str(uuid.uuid4())
 
-    # 2) create a monitor record immediately so clients can poll
     task_svc.create(task_id)
     task_svc.progress(task_id, 1)
 
-    # 3) schedule background work
-    background.add_task(run_embed_task, task_id, input, user_id, task_svc)
+    run_embed_task.delay(
+        task_id=task_id,
+        req_data=input.model_dump(),
+        user_id=user_id,
+    )
 
-    # 4) return 202 with task id
     return JSONResponse(content={"task_id": task_id}, status_code=202)

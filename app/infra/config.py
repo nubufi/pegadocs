@@ -19,6 +19,17 @@ class Settings(BaseSettings):
     REDIS_PORT: int = Field(default=6379)
     REDIS_PASSWORD: str = Field(default="")
 
+    # Celery (derives from Redis by default)
+    CELERY_BROKER_URL: str = Field(
+        default="redis://redis:6379/0"
+    )
+    CELERY_RESULT_BACKEND: str = Field(
+        default="redis://redis:6379/1"
+    )
+
+    # Celery worker
+    CELERY_WORKER_CONCURRENCY: int = Field(default=4)
+
     # S3 Storage
     S3_DATA_SOURCE_BUCKET_NAME: str = Field(default="")
     S3_EMBEDDING_BUCKET_NAME: str = Field(default="")

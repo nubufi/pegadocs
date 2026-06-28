@@ -20,7 +20,26 @@ class TestDataSourceService:
         self.user_id = "user-789"
         self.ds_name = "My Drive"
         self.ds_type = "google_drive"
-        self.config = {"folder": "root"}
+        self.config = {
+            "service_account_dict": {
+                "type": "service_account",
+                "project_id": "test-proj",
+                "private_key_id": "test-key-id",
+                "private_key": "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----\n",
+                "client_email": "test@test.iam.gserviceaccount.com",
+                "client_id": "12345",
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                "token_uri": "https://oauth2.googleapis.com/token",
+                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/test",
+                "universe_domain": "googleapis.com",
+            },
+            "inclusion_rules": ["*.pdf"],
+            "exclusion_rules": ["*.tmp"],
+            "folder_id": "test-folder",
+            "drive_id": "test-drive",
+            "file_ids": ["test-file"],
+        }
 
     # ---- delete_data_source ----
     @patch("app.application.services.data_source_service.delete_item")

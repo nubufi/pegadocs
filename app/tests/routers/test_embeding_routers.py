@@ -65,8 +65,13 @@ def test_embed_sources_success(client, mocker, endpoint, payload):
     mock_task_service.create.return_value = None
     mock_task_service.progress.return_value = None
 
-    # Override the dependency in the app
+    mock_delay = mocker.patch(
+        "app.tasks.embedding.run_embed_task.delay",
+        return_value=None,
+    )
+
     client.app.dependency_overrides[get_task_service] = lambda: mock_task_service
 
     response = client.post(endpoint, json=payload)
     assert response.status_code == 202
+    mock_delay.assert_called_once()

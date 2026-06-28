@@ -20,8 +20,17 @@ Open-source knowledge management platform. Connect your own LLM, embedding provi
 │  │ Auth      │  │ Chat     │  │ Collection Mgmt  │     │
 │  │ (Supabase │  │ (RAG +   │  │ (data sources,   │     │
 │  │  or local)│  │  stream) │  │  embeddings)     │     │
-│  └───────────┘  └──────────┘  └──────────────────┘     │
-└──────┬────────────────┬──────────────────┬──────────────┘
+│  └───────────┘  └──────────┘  └────────┬─────────┘     │
+│                                        │                │
+└────────────────────────────────────────┼────────────────┘
+                                         │
+                      ┌──────────────────┴──────────────┐
+                      │  Celery Workers (Redis broker)   │
+                      │  Parallel embedding pipeline      │
+                      │  Chunk → Embed → Vector Store    │
+                      └──────────────────┬──────────────┘
+                                         │
+└──────┬────────────────┬──────────────────┼──────────────┘
        ▼                ▼                  ▼
 ┌──────────┐   ┌──────────────┐   ┌──────────────────┐
 │ Postgres │   │ Vector Store │   │ LLM / Embedding  │
@@ -56,13 +65,15 @@ cd pegadocs
 docker compose up --build
 ```
 
-This starts three services:
+This starts five services:
 
-| Service   | Port  | Description                          |
-|-----------|-------|--------------------------------------|
-| `ui`      | 3000  | Next.js frontend (marketing + console) |
-| `app`     | 8000  | FastAPI backend                       |
-| `postgres`| 5432  | PostgreSQL 17 with pgvector extension  |
+| Service         | Port | Description                              |
+|-----------------|------|------------------------------------------|
+| `ui`            | 3000 | Next.js frontend (marketing + console)   |
+| `app`           | 8000 | FastAPI backend                          |
+| `postgres`      | 5432 | PostgreSQL 17 with pgvector extension    |
+| `redis`         | 6379 | Message broker for Celery task queue     |
+| `celery_worker` | —    | Async workers (embedding pipeline, 2 replicas) |
 
 ### Mock API Mode (no external services needed)
 
@@ -99,6 +110,14 @@ make test     # run all tests with coverage
 make lint     # ruff check
 make format   # ruff format
 ```
+
+For embedding pipeline parallelism, start a Celery worker (requires Redis):
+
+```bash
+celery -A app.tasks.celery_app worker --concurrency=4 --loglevel=info
+```
+
+Or run everything with Docker Compose (includes Redis + 2 worker replicas).
 
 ### Frontend
 
@@ -162,12 +181,12 @@ Configure your model provider and API keys through the console dashboard after s
 
 ### Additional Services (optional)
 
-| Service    | Variables                          |
-|------------|------------------------------------|
-| Redis      | `REDIS_HOST`, `REDIS_PORT`         |
-| AWS S3     | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, bucket names |
-| Sentry     | `SENTRY_DSN`                       |
-| Email      | `RESEND_API_KEY`, `RESEND_FROM_EMAIL` |
+| Service       | Variables                                      |
+|---------------|------------------------------------------------|
+| Celery + Redis| `CELERY_BROKER_URL`, `CELERY_RESULT_BACKEND`, `CELERY_WORKER_CONCURRENCY` |
+| AWS S3        | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, bucket names |
+| Sentry        | `SENTRY_DSN`                                   |
+| Email         | `RESEND_API_KEY`, `RESEND_FROM_EMAIL`           |
 
 See `app/.env.example` for the full list of available variables.
 

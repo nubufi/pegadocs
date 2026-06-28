@@ -54,10 +54,12 @@ class TestPromptService:
         )
         assert result == [{"name": "builtin"}, {"name": "custom"}]
 
+    @patch.object(PromptService, "get_builtin_prompts")
     @patch.object(
         PromptService, "get_user_defined_prompts", side_effect=Exception("list error")
     )
-    def test_list_prompt_failure(self, _):
+    def test_list_prompt_failure(self, _, mock_builtin_prompts):
+        mock_builtin_prompts.return_value = []
         with pytest.raises(
             PromptListingException, match="Failed to list prompts: list error"
         ):
