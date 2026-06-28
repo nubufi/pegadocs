@@ -1,26 +1,169 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fbfcfe;
+  --foreground: #0f1d33;
+  --primary: #1b3a7c;
+  --primary-hover: #2a4a8c;
+  --navy: #0f1d33;
+  --footer-navy: #0c1626;
+  --console: #f4f6fb;
+  --card: #ffffff;
+  --section: #f3f6fb;
+  --border: #e7ebf3;
+  --border-strong: #dbe2ee;
+  --muted: #5a6985;
+  --muted-soft: #8995ad;
+  --success: #1b9e6a;
+  --success-bg: #e7f6ee;
+  --warning: #b3791a;
+  --warning-bg: #fbf1de;
+  --error: #c0392b;
+  --error-bg: #fbeae8;
+  --idle: #6b7890;
+  --idle-bg: #eef1f6;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-navy: var(--navy);
+  --color-footer-navy: var(--footer-navy);
+  --color-console: var(--console);
+  --color-card: var(--card);
+  --color-section: var(--section);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-muted: var(--muted);
+  --color-muted-soft: var(--muted-soft);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-error: var(--error);
+  --color-error-bg: var(--error-bg);
+  --color-idle: var(--idle);
+  --color-idle-bg: var(--idle-bg);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-code);
+  --font-display: var(--font-heading);
+  --shadow-button: 0 8px 22px -10px rgba(27, 58, 124, 0.6);
+  --shadow-card-hero: 0 30px 70px -28px rgba(15, 29, 51, 0.32);
+  --shadow-chat: 0 24px 60px -30px rgba(15, 29, 51, 0.5);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+::selection {
+  background: var(--primary);
+  color: #fff;
+}
+
+[data-scroll]::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+[data-scroll]::-webkit-scrollbar-thumb {
+  background: #d3dae6;
+  border-radius: 9px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+@keyframes pd-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pd-blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes pd-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pd-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes pd-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-pd-rise {
+  animation: pd-rise 0.28s ease-out both;
+}
+
+.animate-pd-blink {
+  animation: pd-blink 1.2s infinite;
+}
+
+.animate-pd-spin {
+  animation: pd-spin 1s linear infinite;
+}
+
+.animate-pd-pulse {
+  animation: pd-pulse 1.8s ease-in-out infinite;
+}
+
+.animate-pd-float {
+  animation: pd-float 4s ease-in-out infinite;
 }
