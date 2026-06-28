@@ -91,8 +91,8 @@ def test_revoke_api_key_unauthorized(mocker):
 def test_auth_info_with_api_key(client, mocker):
     """Test auth info endpoint when API key authentication is used"""
     mocker.patch(
-        "app.application.services.auth_service.AuthService.get_user_email",
-        return_value="user@example.com",
+        "app.application.services.auth_service.AuthService.get_user_details",
+        return_value=("user@example.com", None),
     )
     response = client.get("/auth/auth-info", headers={"X-API-Key": "test-api-key"})
 
@@ -107,7 +107,7 @@ def test_auth_info_with_api_key(client, mocker):
 def test_login_success(client, mocker):
     """Test login endpoint with valid credentials"""
     mock_login = mocker.patch("app.application.services.auth_service.AuthService.login")
-    mock_login.return_value = ("user-123", "access-token", "refresh-token", 3600)
+    mock_login.return_value = ("user-123", "access-token", "refresh-token", 3600, "Test User")
 
     payload = {"email": "test@example.com", "password": "password123"}
 
@@ -275,14 +275,12 @@ def test_update_user_profile_success(client, mocker):
         "Updated Name",
         "+1234567890",
         "Updated Company",
-        "updated_ref",
     )
 
     payload = {
         "name": "Updated Name",
         "phone": "+1234567890",
         "company": "Updated Company",
-        "reference_code": "updated_ref",
     }
 
     response = client.put("/auth/update-profile", json=payload)
@@ -294,7 +292,6 @@ def test_update_user_profile_success(client, mocker):
     assert data["name"] == "Updated Name"
     assert data["phone"] == "+1234567890"
     assert data["company"] == "Updated Company"
-    assert data["reference_code"] == "updated_ref"
     assert "successfully" in data["message"]
 
 
@@ -309,7 +306,6 @@ def test_update_user_profile_partial_update(client, mocker):
         "Updated Name",
         "+1234567890",
         None,
-        None,
     )
 
     payload = {"name": "Updated Name"}
@@ -320,7 +316,6 @@ def test_update_user_profile_partial_update(client, mocker):
     data = response.json()
     assert data["name"] == "Updated Name"
     assert data["company"] is None
-    assert data["reference_code"] is None
 
 
 def test_update_user_profile_unauthorized(client):

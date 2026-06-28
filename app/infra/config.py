@@ -23,6 +23,11 @@ class Settings(BaseSettings):
     S3_DATA_SOURCE_BUCKET_NAME: str = Field(default="")
     S3_EMBEDDING_BUCKET_NAME: str = Field(default="")
 
+    # Auth provider
+    AUTH_PROVIDER: str = Field(default="supabase")
+    DB_URL: str = Field(default="")
+    LOCAL_AUTH_JWT_SECRET: str = Field(default="")
+
     # Supabase
     SUPABASE_URL: str = Field(default="")
     SUPABASE_KEY: str = Field(default="")
@@ -45,10 +50,16 @@ class Settings(BaseSettings):
     DATABASE_TABLE_NAME: str = Field(default="databases")
     MODELS_TABLE_NAME: str = Field(default="models")
     PROMPT_TABLE_NAME: str = Field(default="prompts")
-    REFERENCE_CODES_TABLE_NAME: str = Field(default="reference_codes")
     JOB_STATUS_TABLE_NAME: str = Field(default="job_status")
     FILE_STATUS_TABLE_NAME: str = Field(default="file_status")
     NODES_TABLE_NAME: str = Field(default="nodes_status")
+
+    # Local auth table names
+    LOCAL_USERS_TABLE_NAME: str = Field(default="local_users")
+    LOCAL_REFRESH_TOKENS_TABLE_NAME: str = Field(default="local_refresh_tokens")
+    LOCAL_PASSWORD_RESET_TOKENS_TABLE_NAME: str = Field(default="local_password_reset_tokens")
+    LOCAL_API_KEYS_TABLE_NAME: str = Field(default="local_api_keys")
+    LOCAL_METADATA_TABLE_NAME: str = Field(default="local_metadata")
 
     SITE_URL: str = Field(default="https://pegadocs.com")
 
