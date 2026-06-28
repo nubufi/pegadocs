@@ -5,6 +5,7 @@ import {
   Boxes,
   Database,
   Home,
+  LogOut,
   Menu,
   MessageSquareText,
   Search,
@@ -13,11 +14,12 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
+import { getInitials, useAuthStore } from "@/stores/auth";
 
 const sections = [
   {
@@ -129,7 +131,15 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
 export function ConsoleShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const user = useAuthStore((state) => state.user);
+  const clearSession = useAuthStore((state) => state.clearSession);
+
+  function logout() {
+    clearSession();
+    router.replace("/login");
+  }
 
   return (
     <div className="flex h-screen min-h-[680px] overflow-hidden bg-console text-muted">
@@ -175,9 +185,25 @@ export function ConsoleShell({ children }: { children: React.ReactNode }) {
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             production
           </div>
-          <Link href="/account" aria-label="Account">
-            <Avatar initials="NB" size="sm" />
+          <Link
+            href="/account"
+            aria-label="Account"
+            className="hidden min-w-0 items-center gap-2 rounded-lg px-1.5 py-1 transition-colors hover:bg-console sm:flex"
+          >
+            <Avatar initials={getInitials(user)} size="sm" />
+            <span className="max-w-[150px] truncate text-sm font-medium text-foreground">
+              {user?.name || user?.email || "Account"}
+            </span>
           </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Sign out"
+            title="Sign out"
+            onClick={logout}
+          >
+            <LogOut size={18} />
+          </Button>
         </header>
         <div data-scroll className="flex-1 overflow-y-auto p-4 md:p-7">
           {children}

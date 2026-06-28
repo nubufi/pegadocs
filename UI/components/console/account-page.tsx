@@ -1,34 +1,48 @@
 "use client";
 
 import { Monitor, Plus, Smartphone } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Field, Input } from "@/components/ui/input";
 import { StatusPill } from "@/components/ui/status-pill";
 import { useAccountData } from "@/hooks/use-console-data";
+import { getInitials, useAuthStore } from "@/stores/auth";
 
 export function AccountPage() {
+  const router = useRouter();
+  const user = useAuthStore((state) => state.user);
+  const clearSession = useAuthStore((state) => state.clearSession);
   const { profile, apiKeys, sessions } = useAccountData();
+  const displayName = user?.name || profile.name;
+  const displayEmail = user?.email || profile.email;
+
+  function logout() {
+    clearSession();
+    router.replace("/login");
+  }
 
   return (
     <div className="mx-auto max-w-[860px]">
       <Card className="flex flex-wrap items-center gap-5 p-6">
-        <Avatar initials={profile.initials} size="lg" />
+        <Avatar initials={getInitials(user) || profile.initials} size="lg" />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-display text-[21px] font-bold text-foreground">
-              {profile.name}
+              {displayName}
             </span>
             <span className="rounded-md border border-[#dde5f3] bg-[#eef2fa] px-2.5 py-1 font-mono text-[11px] font-semibold text-primary">
               OWNER
             </span>
           </div>
           <div className="mt-1 text-sm text-idle">
-            {profile.email} · joined Jan 2026
+            {displayEmail} · joined Jan 2026
           </div>
         </div>
-        <Button variant="danger">Sign out</Button>
+        <Button variant="danger" onClick={logout}>
+          Sign out
+        </Button>
       </Card>
 
       <Card className="mt-4 p-6">
@@ -37,10 +51,10 @@ export function AccountPage() {
         </div>
         <div className="mt-5 grid gap-4 min-[720px]:grid-cols-2">
           <Field label="Full name">
-            <Input defaultValue={profile.name} />
+            <Input defaultValue={displayName} />
           </Field>
           <Field label="Email">
-            <Input defaultValue={profile.email} type="email" />
+            <Input defaultValue={displayEmail} type="email" />
           </Field>
           <Field label="Workspace">
             <Input defaultValue={profile.workspace} />
